@@ -46,6 +46,8 @@ LOCAL_C_INCLUDES += external/sqlite/dist external/openssl/include external/zlib
 
 LOCAL_STATIC_LIBRARIES := \
 	libopenbsd-compat \
+	libcrypto \
+	libc
 
 LOCAL_SHARED_LIBRARIES := \
 	liblog \
@@ -54,7 +56,6 @@ LOCAL_SHARED_LIBRARIES := \
 	libbinder \
 	libutils \
 	libdl \
-	libcrypto \
 	libz 
 
 LOCAL_MODULE_TAGS := eng

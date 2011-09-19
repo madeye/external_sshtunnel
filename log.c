@@ -51,6 +51,7 @@
 
 #include "xmalloc.h"
 #include "log.h"
+#include "notify.h"
 
 static LogLevel log_level = SYSLOG_LEVEL_INFO;
 static int log_on_stderr = 1;
@@ -337,6 +338,25 @@ do_log(LogLevel level, const char *fmt, va_list args)
 	char *txt = NULL;
 	int pri = LOG_INFO;
 	int saved_errno = errno;
+    int notify_type = FATAL;
+
+	switch (level) {
+	case SYSLOG_LEVEL_FATAL:
+        txt = "fatal";
+        notify_type = FATAL;
+		break;
+	case SYSLOG_LEVEL_ERROR:
+        txt = "error";
+        notify_type = ERROR;
+		break;
+    }
+    
+	if (txt != NULL) {
+		snprintf(fmtbuf, sizeof(fmtbuf), "%s: %s", txt, fmt);
+		vsnprintf(msgbuf, sizeof(msgbuf), fmtbuf, args);
+        send_intent(notify_type, msgbuf);
+        txt = NULL;
+    }
 
 	if (level > log_level)
 		return;

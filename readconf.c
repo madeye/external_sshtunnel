@@ -1222,7 +1222,7 @@ fill_default_options(Options * options)
 	if (options->connection_attempts == -1)
 		options->connection_attempts = 1;
 	if (options->number_of_password_prompts == -1)
-		options->number_of_password_prompts = 3;
+		options->number_of_password_prompts = 1;
 	/* Selected in ssh_login(). */
 	if (options->cipher == -1)
 		options->cipher = SSH_CIPHER_NOT_SET;

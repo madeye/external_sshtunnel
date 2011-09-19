@@ -485,7 +485,7 @@ main(int ac, char **av)
 				if (options.cipher == SSH_CIPHER_3DES)
 					options.ciphers = "3des-cbc";
 				else if (options.cipher == SSH_CIPHER_BLOWFISH)
-					options.ciphers = "blowfish-cbc";
+                    options.ciphers = "blowfish-cbc";
 				else
 					options.ciphers = (char *)-1;
 			}

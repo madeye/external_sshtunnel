@@ -7,7 +7,7 @@
 #include <assert.h>
 
 extern "C" {
-#include "su.h"
+#include "notify.h"
 #include <private/android_filesystem_config.h>
 #include <cutils/properties.h>
 }
@@ -23,7 +23,7 @@ static const int VAL_INTEGER = 1;
 
 static const int START_SUCCESS = 0;
 
-int send_intent(struct su_initiator *from, struct su_request *to, const char *socket_path, int type)
+int send_intent(int type, char* status)
 {
     char sdk_version_prop[PROPERTY_VALUE_MAX] = "0";
     property_get("ro.build.version.sdk", sdk_version_prop, "0");
@@ -40,11 +40,8 @@ int send_intent(struct su_initiator *from, struct su_request *to, const char *so
     data.writeStrongBinder(NULL); /* caller */
 
     /* intent */
-    if (type == 0) {
-        data.writeString16(String16("com.noshufou.android.su.REQUEST")); /* action */
-    } else {
-        data.writeString16(String16("com.noshufou.android.su.NOTIFICATION")); /* action */
-    }
+    data.writeString16(String16("org.sshtunnel.NOTIFICATION")); /* action */
+
     data.writeInt32(NULL_TYPE_ID); /* Uri - data */
     data.writeString16(NULL, 0); /* type */
     data.writeInt32(0); /* flags */
@@ -63,27 +60,18 @@ int send_intent(struct su_initiator *from, struct su_request *to, const char *so
         int oldPos = data.dataPosition();
         data.writeInt32(0x4C444E42); // 'B' 'N' 'D' 'L'
         { /* writeMapInternal */
-            data.writeInt32(4); /* writeMapInternal - size */
+            data.writeInt32(2); /* writeMapInternal - size */
 
             data.writeInt32(VAL_STRING);
-            data.writeString16(String16("caller_uid"));
+            data.writeString16(String16("type"));
             data.writeInt32(VAL_INTEGER);
-            data.writeInt32(from->uid);
+            data.writeInt32(type);
 
             data.writeInt32(VAL_STRING);
-            data.writeString16(String16("desired_uid"));
-            data.writeInt32(VAL_INTEGER);
-            data.writeInt32(to->uid);
+            data.writeString16(String16("status"));
+            data.writeInt32(VAL_STRING);
+            data.writeString16(String16(status));
 
-            data.writeInt32(VAL_STRING);
-            data.writeString16(String16("desired_cmd"));
-            data.writeInt32(VAL_STRING);
-            data.writeString16(String16(to->command));
-
-            data.writeInt32(VAL_STRING);
-            data.writeString16(String16("socket"));
-            data.writeInt32(VAL_STRING);
-            data.writeString16(String16(socket_path));
         }
         int newPos = data.dataPosition();
         data.setDataPosition(oldPos - 4);
@@ -100,12 +88,12 @@ int send_intent(struct su_initiator *from, struct su_request *to, const char *so
     data.writeString16(NULL, 0); /* resultData */
 
     data.writeInt32(-1); /* resultExtras */
-    
+
     data.writeString16(String16("com.noshufou.android.su.RESPOND")); /* perm */
     data.writeInt32(0); /* serialized */
     data.writeInt32(0); /* sticky */
     data.writeInt32(-1);
-    
+
     status_t ret = am->transact(BROADCAST_INTENT_TRANSACTION, data, &reply);
     if (ret < START_SUCCESS) return -1;
 

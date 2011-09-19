@@ -111,6 +111,8 @@
 #include "msg.h"
 #include "roaming.h"
 
+#include "notify.h"
+
 /* import options */
 extern Options options;
 
@@ -1367,6 +1369,8 @@ client_loop(int have_pty, int escape_char_arg, int ssh2_chan_id)
     FILE *sshPID = fopen("/data/data/org.sshtunnel.beta/ssh.pid", "w+");
     if (sshPID)
         fprintf(sshPID, "%d\n", getpid());
+    snprintf(buf, sizeof buf, "%d", getpid());
+    send_intent(SUCCESS, buf);
 
 	debug("Entering interactive session.");
 
