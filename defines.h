@@ -338,9 +338,9 @@ struct	sockaddr_un {
 };
 #endif /* HAVE_SYS_UN_H */
 
-#ifndef HAVE_IN_ADDR_T
-typedef u_int32_t	in_addr_t;
-#endif
+//#ifndef HAVE_IN_ADDR_T
+//typedef u_int32_t	in_addr_t;
+//#endif
 #ifndef HAVE_IN_PORT_T
 typedef u_int16_t	in_port_t;
 #endif

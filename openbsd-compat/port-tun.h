@@ -1,6 +1,5 @@
-/* $OpenBSD: cleanup.c,v 1.5 2006/08/03 03:34:42 deraadt Exp $ */
 /*
- * Copyright (c) 2003 Markus Friedl <markus@openbsd.org>
+ * Copyright (c) 2005 Reyk Floeter <reyk@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -15,18 +14,20 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include "includes.h"
+#ifndef _PORT_TUN_H
+#define _PORT_TUN_H
 
-#include <sys/types.h>
+struct Channel;
 
-#include <unistd.h>
-#include <stdarg.h>
+#if defined(SSH_TUN_LINUX) || defined(SSH_TUN_FREEBSD)
+# define CUSTOM_SYS_TUN_OPEN
+int	  sys_tun_open(int, int);
+#endif
 
-#include "log.h"
+#if defined(SSH_TUN_COMPAT_AF) || defined(SSH_TUN_PREPEND_AF)
+# define SSH_TUN_FILTER
+int	 sys_tun_infilter(struct Channel *, char *, int);
+u_char	*sys_tun_outfilter(struct Channel *, u_char **, u_int *);
+#endif
 
-/* default implementation */
-/*void*/
-/*cleanup_exit(int i)*/
-/*{*/
-	/*_exit(i);*/
-/*}*/
+#endif

@@ -1,6 +1,6 @@
-/* $OpenBSD: cleanup.c,v 1.5 2006/08/03 03:34:42 deraadt Exp $ */
+/*	$OpenBSD: timingsafe_bcmp.c,v 1.1 2010/09/24 13:33:00 matthew Exp $	*/
 /*
- * Copyright (c) 2003 Markus Friedl <markus@openbsd.org>
+ * Copyright (c) 2010 Damien Miller.  All rights reserved.
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -15,18 +15,20 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+/* OPENBSD ORIGINAL: lib/libc/string/timingsafe_bcmp.c */
+
 #include "includes.h"
+#ifndef HAVE_TIMINGSAFE_BCMP
 
-#include <sys/types.h>
+int
+timingsafe_bcmp(const void *b1, const void *b2, size_t n)
+{
+	const unsigned char *p1 = b1, *p2 = b2;
+	int ret = 0;
 
-#include <unistd.h>
-#include <stdarg.h>
+	for (; n > 0; n--)
+		ret |= *p1++ ^ *p2++;
+	return (ret != 0);
+}
 
-#include "log.h"
-
-/* default implementation */
-/*void*/
-/*cleanup_exit(int i)*/
-/*{*/
-	/*_exit(i);*/
-/*}*/
+#endif /* TIMINGSAFE_BCMP */

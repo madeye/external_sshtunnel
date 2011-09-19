@@ -1,6 +1,5 @@
-/* $OpenBSD: cleanup.c,v 1.5 2006/08/03 03:34:42 deraadt Exp $ */
 /*
- * Copyright (c) 2003 Markus Friedl <markus@openbsd.org>
+ * Copyright (c) 2005 Darren Tucker
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -15,18 +14,32 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include "includes.h"
+#include <stdlib.h>
+#include <string.h>
 
-#include <sys/types.h>
+static int fail = 0;
 
-#include <unistd.h>
-#include <stdarg.h>
+void
+test(const char *a)
+{
+	char *b;
 
-#include "log.h"
+	b = strdup(a);
+	if (b == 0) {
+		fail = 1;
+		return;
+	}
+	if (strcmp(a, b) != 0)
+		fail = 1;
+	free(b);
+}
 
-/* default implementation */
-/*void*/
-/*cleanup_exit(int i)*/
-/*{*/
-	/*_exit(i);*/
-/*}*/
+int
+main(void)
+{
+	test("");
+	test("a");
+	test("\0");
+	test("abcdefghijklmnopqrstuvwxyz");
+	return fail;
+}

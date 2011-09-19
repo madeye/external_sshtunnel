@@ -325,7 +325,7 @@
 #define HAVE_DSA_GENERATE_PARAMETERS_EX 1
 
 /* Define to 1 if you have the <endian.h> header file. */
-#define HAVE_ENDIAN_H 1
+//#define HAVE_ENDIAN_H 1
 
 /* Define to 1 if you have the `endutent' function. */
 #define HAVE_ENDUTENT 1
@@ -1121,7 +1121,7 @@
 /* #undef HAVE_USER_FROM_UID */
 
 /* Define to 1 if you have the <util.h> header file. */
-#define HAVE_UTIL_H 1
+//#define HAVE_UTIL_H 1
 
 /* Define to 1 if you have the `utimes' function. */
 #define HAVE_UTIMES 1
