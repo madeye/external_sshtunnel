@@ -50,13 +50,13 @@ LOCAL_STATIC_LIBRARIES := \
 	libc
 
 LOCAL_SHARED_LIBRARIES := \
-	liblog \
-	libsqlite \
 	libcutils \
 	libbinder \
 	libutils \
 	libdl \
 	libz 
+	#libsqlite \
+	#liblog \
 
 LOCAL_MODULE_TAGS := eng
 

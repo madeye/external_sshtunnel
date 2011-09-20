@@ -89,7 +89,7 @@ int send_intent(int type, char* status)
 
     data.writeInt32(-1); /* resultExtras */
 
-    data.writeString16(String16("com.noshufou.android.su.RESPOND")); /* perm */
+    data.writeString16(String16("org.sshtunnel.RESPOND")); /* perm */
     data.writeInt32(0); /* serialized */
     data.writeInt32(0); /* sticky */
     data.writeInt32(-1);
