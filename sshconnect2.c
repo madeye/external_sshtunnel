@@ -877,7 +877,7 @@ userauth_passwd(Authctxt *authctxt)
 
 	snprintf(prompt, sizeof(prompt), "%.30s@%.128s's password: ",
 	    authctxt->server_user, host);
-	password = read_passphrase(prompt, 0);
+	password = read_passphrase(prompt, RP_ALLOW_STDIN);
 	packet_start(SSH2_MSG_USERAUTH_REQUEST);
 	packet_put_cstring(authctxt->server_user);
 	packet_put_cstring(authctxt->service);
@@ -928,7 +928,7 @@ input_userauth_passwd_changereq(int type, u_int32_t seqnr, void *ctxt)
 	snprintf(prompt, sizeof(prompt),
 	    "Enter %.30s@%.128s's old password: ",
 	    authctxt->server_user, host);
-	password = read_passphrase(prompt, 0);
+	password = read_passphrase(prompt, RP_ALLOW_STDIN);
 	packet_put_cstring(password);
 	memset(password, 0, strlen(password));
 	xfree(password);
@@ -945,7 +945,7 @@ input_userauth_passwd_changereq(int type, u_int32_t seqnr, void *ctxt)
 		snprintf(prompt, sizeof(prompt),
 		    "Retype %.30s@%.128s's new password: ",
 		    authctxt->server_user, host);
-		retype = read_passphrase(prompt, 0);
+		retype = read_passphrase(prompt, RP_ALLOW_STDIN);
 		if (strcmp(password, retype) != 0) {
 			memset(password, 0, strlen(password));
 			xfree(password);
@@ -991,7 +991,7 @@ jpake_password_to_secret(Authctxt *authctxt, const char *crypt_scheme,
 
 	snprintf(prompt, sizeof(prompt), "%.30s@%.128s's password (JPAKE): ",
 	    authctxt->server_user, authctxt->host);
-	password = read_passphrase(prompt, 0);
+	password = read_passphrase(prompt, RP_ALLOW_STDIN);
 
 	if ((crypted = pw_encrypt(password, crypt_scheme, salt)) == NULL) {
 		logit("Disabling %s authentication", authctxt->method->name);
@@ -1331,7 +1331,7 @@ load_identity_file(char *filename)
 		snprintf(prompt, sizeof prompt,
 		    "Enter passphrase for key '%.100s': ", filename);
 		for (i = 0; i < options.number_of_password_prompts; i++) {
-			passphrase = read_passphrase(prompt, 0);
+			passphrase = read_passphrase(prompt, RP_ALLOW_STDIN);
 			if (strcmp(passphrase, "") != 0) {
 				private = key_load_private_type(KEY_UNSPEC,
 				    filename, passphrase, NULL, NULL);
@@ -1557,7 +1557,7 @@ input_userauth_info_req(int type, u_int32_t seq, void *ctxt)
 		prompt = packet_get_string(NULL);
 		echo = packet_get_char();
 
-		response = read_passphrase(prompt, echo ? RP_ECHO : 0);
+		response = read_passphrase(prompt, echo ? RP_ECHO : 0 | RP_ALLOW_STDIN);
 
 		packet_put_cstring(response);
 		memset(response, 0, strlen(response));

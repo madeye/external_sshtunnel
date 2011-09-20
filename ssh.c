@@ -380,7 +380,7 @@ main(int ac, char **av)
 			break;
 		case 'i':
 			if (stat(optarg, &st) < 0) {
-				fprintf(stderr, "Warning: Identity file %s "
+				fprintf(stdout, "Warning: Identity file %s "
 				    "not accessible: %s.\n", optarg,
 				    strerror(errno));
 				break;

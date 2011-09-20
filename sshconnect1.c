@@ -260,7 +260,7 @@ try_rsa_authentication(int idx)
 		snprintf(buf, sizeof(buf),
 		    "Enter passphrase for RSA key '%.100s': ", comment);
 		for (i = 0; i < options.number_of_password_prompts; i++) {
-			passphrase = read_passphrase(buf, 0);
+			passphrase = read_passphrase(buf, RP_ALLOW_STDIN);
 			if (strcmp(passphrase, "") != 0) {
 				private = key_load_private_type(KEY_RSA1,
 				    authfile, passphrase, NULL, NULL);
@@ -418,7 +418,7 @@ try_challenge_response_authentication(void)
 		if (options.cipher == SSH_CIPHER_NONE)
 			logit("WARNING: Encryption is disabled! "
 			    "Response will be transmitted in clear text.");
-		response = read_passphrase(prompt, 0);
+		response = read_passphrase(prompt, RP_ALLOW_STDIN);
 		if (strcmp(response, "") == 0) {
 			xfree(response);
 			break;
@@ -455,7 +455,7 @@ try_password_authentication(char *prompt)
 	for (i = 0; i < options.number_of_password_prompts; i++) {
 		if (i != 0)
 			error("Permission denied, please try again.");
-		password = read_passphrase(prompt, 0);
+		password = read_passphrase(prompt, RP_ALLOW_STDIN);
 		packet_start(SSH_CMSG_AUTH_PASSWORD);
 		ssh_put_password(password);
 		memset(password, 0, strlen(password));

@@ -8,8 +8,9 @@
 #define SUCCESS     0
 #define FATAL       1
 #define ERROR       2
+#define PROMPT      3
 
-extern int send_intent(int type, char* status);
+extern int send_intent(int type, const char* status);
 
 #define PLOGE(fmt,args...) LOGE(fmt " failed with %d: %s" , ## args , errno, strerror(errno))
 #define PLOGEV(fmt,err,args...) LOGE(fmt " failed with %d: %s" , ## args , err, strerror(err))

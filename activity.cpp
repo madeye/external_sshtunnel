@@ -23,7 +23,7 @@ static const int VAL_INTEGER = 1;
 
 static const int START_SUCCESS = 0;
 
-int send_intent(int type, char* status)
+int send_intent(int type, const char * status)
 {
     char sdk_version_prop[PROPERTY_VALUE_MAX] = "0";
     property_get("ro.build.version.sdk", sdk_version_prop, "0");
