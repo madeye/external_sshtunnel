@@ -8,11 +8,7 @@ LOCAL_SRC_FILES := $(foreach T,$(OPENBSD_COMPAT_SRC),openbsd-compat/$(T))
 
 LOCAL_MODULE:= libopenbsd-compat
 
-LOCAL_C_INCLUDES += external/sshtunnel/ external/sqlite/dist external/openssl/include external/zlib
-
-#LOCAL_SHARED_LIBRARIES := \
-	#libcrypto \
-	#libz
+LOCAL_C_INCLUDES += external/sshtunnel/ external/openssl/include external/zlib
 
 include $(BUILD_STATIC_LIBRARY)
 
@@ -42,7 +38,7 @@ OPENSSH_SRC := $(LIBSSH_OBJS) $(SSHOBJS)
 
 LOCAL_SRC_FILES := $(OPENSSH_SRC) activity.cpp
 
-LOCAL_C_INCLUDES += external/sqlite/dist external/openssl/include external/zlib
+LOCAL_C_INCLUDES += external/openssl/include external/zlib
 
 LOCAL_STATIC_LIBRARIES := \
 	libopenbsd-compat \
@@ -53,10 +49,8 @@ LOCAL_SHARED_LIBRARIES := \
 	libcutils \
 	libbinder \
 	libutils \
-	libdl \
-	libz 
-	#libsqlite \
-	#liblog \
+	libz \
+	libdl
 
 LOCAL_MODULE_TAGS := eng
 
