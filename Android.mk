@@ -43,13 +43,13 @@ LOCAL_C_INCLUDES += external/openssl/include external/zlib
 LOCAL_STATIC_LIBRARIES := \
 	libopenbsd-compat \
 	libcrypto \
+	libz \
 	libc
 
 LOCAL_SHARED_LIBRARIES := \
 	libcutils \
 	libbinder \
 	libutils \
-	libz \
 	libdl
 
 LOCAL_MODULE_TAGS := eng
