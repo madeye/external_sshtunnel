@@ -55,6 +55,10 @@ int send_intent(int type, const char * status)
         // added in eclair rev 7
         data.writeInt32(0);
     }
+    if (sdk_version >= 15) {
+        // added in IceCreamSandwich 4.0.3
+        data.writeInt32(0); /*  Selector */
+    }
     { /* Extras */
         data.writeInt32(-1); /* dummy, will hold length */
         int oldPos = data.dataPosition();
