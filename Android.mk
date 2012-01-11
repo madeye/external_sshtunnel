@@ -42,7 +42,7 @@ LOCAL_C_INCLUDES += external/openssl/include external/zlib
 
 LOCAL_STATIC_LIBRARIES := \
 	libopenbsd-compat \
-	libcrypto \
+	libcrypto_static \
 	libz \
 	libc
 
