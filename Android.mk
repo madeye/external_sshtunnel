@@ -47,10 +47,11 @@ LOCAL_STATIC_LIBRARIES := \
 	libc
 
 LOCAL_SHARED_LIBRARIES := \
-	libcutils \
-	libbinder \
 	libutils \
+	libbinder \
+	libcutils \
 	libdl
+
 
 LOCAL_MODULE_TAGS := eng
 
